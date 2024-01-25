@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Search Bar with Database</title>
+
+</head>
+
+<body>
+
+
+
+<!-- Search Bar -->
+
+<div class="search-container">
+
+  <span class="search-icon">&#128269;</span>
+
+  <input type="text" id="searchInput" placeholder="Search..." oninput="autocomplete()">
+
+  <div id="autocompleteResults"></div>
+
+</div>
+
+
+
+<!-- Authentication Form -->
+
+<div class="auth-form">
+
+  <h2>Login</h2>
+
+  <form id="authForm" onsubmit="authenticateUser(event)">
+
+    <label for="username">Username:</label>
+
+    <input type="text" id="username" required>
+
+    
+
+    <label for="password">Password:</label>
+
+    <input type="password" id="password" required>
+
+
+
+    <button type="submit">Login</button>
+
+  </form>
+
+</div>
+
+
+
+<!-- Add New Item Form -->
+
+<div class="form-container" style="display: none;" id="addItemForm">
+
+  <h2>Add New Item</h2>
+
+  <form onsubmit="addNewItem(event)">
+
+    <label for="itemName">Name:</label>
+
+    <input type="text" id="itemName" required>
+
+    
+
+    <label for="itemType">Type:</label>
+
+    <input type="text" id="itemType" required>
+
+
+
+    <label for="itemColor">Color:</label>
+
+    <input type="text" id="itemColor" required>
+
+
+
+    <button type="submit">Add Item</button>
+
+  </form>
+
+</div>
+
+
+
+<script>
+
+var searchData = [
+
+  "Apple",
+
+  "Banana",
+
+  "Cherry",
+
+  "Date",
+
+  "Grape",
+
+  "Lemon",
+
+  "Orange",
+
+  "Peach",
+
+  "Pear",
+
+  "Strawberry"
+
+];
+
+
+
+function autocomplete() {
+
+  // Your autocomplete logic here
+
+}
+
+
+
+async function authenticateUser(event) {
+
+  event.preventDefault();
+
+
+
+  // Get form values
+
+  var username = document.getElementById('username').value;
+
+  var password = document.getElementById('password').value;
+
+
+
+  // Send authentication request to server
+
+  const response = await fetch('/addItem', {
+
+    method: 'POST',
+
+    headers: {
+
+      'Content-Type': 'application/json',
+
+    },
+
+    body: JSON.stringify({ username, password }),
+
+  });
+
+
+
+  if (response.ok) {
+
+    // User authenticated successfully, show the form for adding new items
+
+    showAddItemForm();
+
+  } else {
+
+    // Authentication failed, handle accordingly (e.g., show an error message)
+
+    console.log('Authentication failed');
+
+  }
+
+}
+
+
+
+function showAddItemForm() {
+
+  // Show the form for adding new items or perform other actions
+
+  document.getElementById('addItemForm').style.display = 'block';
+
+}
+
+
+
+function addNewItem(event) {
+
+  event.preventDefault();
+
+
+
+  // Get form values
+
+  var itemName = document.getElementById('itemName').value;
+
+  var itemType = document.getElementById('itemType').value;
+
+  var itemColor = document.getElementById('itemColor').value;
+
+
+
+  // Add new item to the search data
+
+  searchData.push(itemName);
+
+
+
+  // Sort the search data alphabetically
+
+  searchData.sort();
+
+
+
+  // Log the updated and sorted data
+
+  console.log('Updated and sorted Search Data:', searchData);
+
+
+
+  // You can also update your database or perform additional actions here
+
+}
+
+</script>
+
+
+
+</body>
+
+</html>
+
+
